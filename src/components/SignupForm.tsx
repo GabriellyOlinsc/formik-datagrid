@@ -51,13 +51,13 @@ export default function SignupForm(){
               label="First Name"
               name="firstName"
               type="text"
-              placeholder="Jane"
+              placeholder=""
             />
             <TextInput
               label="Last Name"
               name="lastName"
               type="text"
-              placeholder="Doe"
+              placeholder=""
             />
             <TextInput
               label="Email Address"
