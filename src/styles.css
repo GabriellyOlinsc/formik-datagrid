@@ -648,4 +648,14 @@
   button[type="submit"] {
     margin-top: 1rem;
   }
+
+  .MuiDataGrid-root {
+  
+    color: white;
+  }
+  
+  .MuiDataGrid-columnHeader {
+    background-color: #1a202c;
+    color: white;
+  }
   
