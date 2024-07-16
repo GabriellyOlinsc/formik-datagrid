@@ -14,9 +14,6 @@ const DataTable: React.FC<DataTableProps> = ({ formData }) => {
         { field: 'jobType', headerName: 'Job Type', width: 230 }
     ]
 
-    
-
-    console.log('form data: ', formData)
     return (
         <DataGrid
             hideFooter
