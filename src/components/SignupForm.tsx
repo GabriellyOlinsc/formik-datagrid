@@ -1,13 +1,15 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Select from "./Select";
 import TextInput from "./TextInput";
 import Checkbox from "./Checkbox";
 
+interface SignupFormProps {
+  onSubmit: (values: any) => void;
+}
 
-// And now we can use these
-export default function SignupForm(){
+const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
     return (
       <>
         <h1>Subscribe!</h1>
@@ -16,8 +18,8 @@ export default function SignupForm(){
             firstName: "",
             lastName: "",
             email: "",
-            acceptedTerms: false, // added for our checkbox
-            jobType: "" // added for our select
+            acceptedTerms: false, 
+            jobType: "" 
           }}
           validationSchema={Yup.object({
             firstName: Yup.string()
@@ -33,17 +35,15 @@ export default function SignupForm(){
               .required("Required")
               .oneOf([true], "You must accept the terms and conditions."),
             jobType: Yup.string()
-              // specify the set of valid values for job type
-              // @see http://bit.ly/yup-mixed-oneOf
               .oneOf(
                 ["designer", "development", "product", "other"],
                 "Invalid Job Type"
               )
               .required("Required")
           })}
-          onSubmit={async (values, { setSubmitting }) => {
-            await new Promise(r => setTimeout(r, 500));
-            setSubmitting(false);
+          onSubmit={(values, { resetForm }: FormikHelpers<any>) => {
+            onSubmit(values);
+            resetForm();
           }}
         >
           <Form>
@@ -83,3 +83,4 @@ export default function SignupForm(){
     );
   };
   
+  export default SignupForm;

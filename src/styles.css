@@ -184,10 +184,13 @@
   input[type="number"] {
     padding: 0.65rem 0.5rem;
     font-size: 1rem;
+    width: '100%';
+    height: auto;
     border: 2px solid var(--gray-200);
     background-color: var(--gray-100);
     color: var(--gray-800);
     border-radius: 10px;
+  
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

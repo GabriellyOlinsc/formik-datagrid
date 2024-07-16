@@ -1,28 +1,36 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { classes } from './styles';
 
-export default function DataTable() {
+interface DataTableProps {
+    formData: any[];
+}
+
+const DataTable: React.FC<DataTableProps> = ({ formData }) => {
+
     const columns: GridColDef[] = [
         { field: 'firstName', headerName: 'First Name', width: 200 },
-        { field: 'lastName', headerName: 'Last Name', width: 200 },
-        { field: 'email', headerName: 'Email', width: 200 },
-        { field: 'job', headerName: 'Job Type', width: 200 }
+        { field: 'lastName', headerName: 'Last Name', width: 230 },
+        { field: 'email', headerName: 'Email', width: 280 },
+        { field: 'jobType', headerName: 'Job Type', width: 230 }
     ]
 
-    const rows = [
-        { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', job: 'Developer' },
-        { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com', job: 'Designer' },
-        { id: 3, firstName: 'Alice', lastName: 'Johnson', email: 'alice.johnson@example.com', job: 'Manager' },
-    ];
+    
 
+    console.log('form data: ', formData)
     return (
-        
-            <DataGrid
-                hideFooter
-                hideFooterPagination
-                rows={rows}
-                columns={columns}
-                sx={classes.dataGrid}
-            />
+        <DataGrid
+            hideFooter
+            disableDensitySelector
+            disableColumnMenu
+            rows={formData ? formData.map((data: any, index: number) => ({
+                id: index + 1,
+                ...data
+            })): []}
+            rowHeight={48}
+            columns={columns}
+            sx={classes.dataGrid}
+        />
     )
 }
+
+export default DataTable;

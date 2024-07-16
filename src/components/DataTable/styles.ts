@@ -2,21 +2,33 @@ import { lighten } from "@mui/material";
 
 export const classes = {
 
+  pagination: {
+    mt: 1,
+    '& .MuiPaginationItem-root.Mui-selected': {
+      color: '#212A2F',
+      backgroundColor: 'rgba(255, 255, 255, 0.80)',
+    },
+    '& .MuiPaginationItem-root.Mui-selected:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 1)',
+    },
+    mb: 1,
+  },
+
   dataGrid: {
+    height: 'calc(100vh - 400px)',
     backgroundColor: lighten("rgba(26, 32, 44, 1)", 0.0),
     fontSize: "14px",
     border: "1px solid",
-    borderColor: lighten("rgba(1, 1, 1, 1)", 0.5) ,
+    borderColor: lighten("rgba(26, 32, 44, 1)", 0.0),
     borderRadius: "20px",
+    marginTop: '20px',
 
     "& .MuiDataGrid-main": {
       borderRadius: "20px",
     },
-
     "& .MuiDataGrid-cell": {
       border: 0,
       px: 1,
-      color: lighten("rgba(0,0,0,1)",0.1),
       overflow: "unset !important",
       "&:focus": {
         outline: "none",
@@ -41,27 +53,27 @@ export const classes = {
     },
 
     "& .MuiDataGrid-columnHeaders": {
-      backgroundColor: lighten("rgba(45, 55, 72, 1)",0.1),
+      backgroundColor: lighten("rgba(45, 55, 72, 1)", 0.1),
       border: 0,
     },
 
     "& .MuiDataGrid-row": {
       transition: "all 0.4s",
-      backgroundColor: lighten("rgba(45, 55, 72, 1)",0.1),
+      backgroundColor: lighten("rgba(45, 55, 72, 1)", 0.1),
       border: "1px solid",
-      borderColor: lighten("rgba(45, 55, 72, 1)",0.1),
-      colors: lighten("rgba(1,1,1,1)",0.1),
+      borderColor: lighten("rgba(45, 55, 72, 1)", 0.1),
+      //colors: lighten("rgba(1,1,1,1)",0.1),
 
-      width: "100%",
 
       "&:nth-of-type(2n + 1)": {
-        backgroundColor: lighten("rgba(113, 128, 150, 1)",0.1),
+        backgroundColor: lighten("rgba(113, 128, 150, 1)", 0.1),
         border: "1px solid",
-        borderColor: lighten("rgba(113, 128, 150, 1)",0.1),
+        borderColor: lighten("rgba(113, 128, 150, 1)", 0.1),
       },
 
       "&:last-of-type": {
         borderRadius: "0 0 20px 20px",
+
       },
 
       "&.Mui-selected": {
