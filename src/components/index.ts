@@ -2,7 +2,7 @@ import TextInput from "./TextInput"
 import Checkbox from "./Checkbox"
 import Select from "./Select"
 import SignupForm from "./SignupForm"
-import MainPage from "./mainPage"
+import MainPage from "../pages/MainPage"
 import DataTable from "./DataTable/DataTable"
 
 export {
