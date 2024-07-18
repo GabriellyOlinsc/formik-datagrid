@@ -5,7 +5,7 @@ import ButtonAppBar from "../../components/ButtonAppBar"
 import TableUsers from "./TableUsers"
 import { UsersType } from "../../model/users.interface"
 
-export default function ViewPage() {
+export default function Users() {
     const [userList, setUserList] = useState<UsersType[]>([])
     const navigate = useNavigate()
 
@@ -24,7 +24,7 @@ export default function ViewPage() {
 
     return (
         <>
-            <ButtonAppBar onClick={handleClick} title='HOME' />
+            <ButtonAppBar onClick={handleClick} title='HOME'/>
             <TableUsers data={userList}/>
         </>
     )

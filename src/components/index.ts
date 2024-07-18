@@ -1,9 +1,10 @@
 import TextInput from "./TextInput"
 import Checkbox from "./Checkbox"
 import Select from "./Select"
-import SignupForm from "./SignupForm"
-import MainPage from "../pages/MainPage"
-import DataTable from "./DataTable/DataTable"
+import SignupForm from "../pages/HomePage/SignupForm"
+import MainPage from "../pages/HomePage/HomePage"
+import DataTable from "../pages/HomePage/DataTable"
+import ProgressMobileStepper from "../components/ProgressMobileStepper"
 
 export {
     TextInput,
@@ -11,5 +12,6 @@ export {
     Select,
     SignupForm,
     MainPage,
-    DataTable
+    DataTable,
+    ProgressMobileStepper
 }

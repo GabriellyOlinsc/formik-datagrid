@@ -1,7 +1,7 @@
-import MainPage from "./MainPage";
-import ViewPage from "./ViewPage/ViewPage";
+import HomePage from "./HomePage/HomePage";
+import Users from "./Users/Users";
 
 export {
-    MainPage,
-    ViewPage
+    HomePage,
+    Users
 }

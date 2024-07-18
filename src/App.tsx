@@ -1,19 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ButtonAppBar from "./components/ButtonAppBar";
 import { MainPage } from "./components";
-import { ViewPage } from "./pages";
+import { Users } from "./pages";
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const theme = createTheme({
+    direction: "ltr",
+});
 
 function App() {
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={<MainPage />} path="/" />
-                    <Route element={<ViewPage />} path="/viewPage" />
-                </Routes>
-            </BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={<MainPage />} path="/" />
+                        <Route element={<Users />} path="/users" />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
         </>
-    )
+    );
 }
 
 export default App;

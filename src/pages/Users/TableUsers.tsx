@@ -6,7 +6,6 @@ interface TableUsersProps {
     data: UsersType[];
 }
 
-
 const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
 
     const columns: GridColDef[] = [
@@ -18,6 +17,7 @@ const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
     ]
 
     return (
+        <>
         <DataGrid
             hideFooter
             disableDensitySelector
@@ -26,17 +26,15 @@ const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
                 id: user.id || index + 1,
                 name: user.name,
                 username: user.username,
-                address: user.address.city, // Acessando o campo city de address
+                address: user.address.city, 
                 phone: user.phone,
-                company: user.company.name, // Acessando o campo name de company
+                company: user.company.name,
             })) : []}
-            rowHeight={48}
             columns={columns}
             sx={{...classes.dataGrid, mt:20 }}
             autoHeight
-            autoPageSize
-            
         />
+        </>
     )
 }
 
