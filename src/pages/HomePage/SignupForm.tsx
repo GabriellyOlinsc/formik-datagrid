@@ -12,7 +12,7 @@ export interface Values {
   email: string;
   street: string;
   suite: string;
-  zipode: string;
+  zipcode: string;
   phone: string;
   website: string;
   companyName: string;
@@ -20,7 +20,39 @@ export interface Values {
   bs?: string;
 }
 
-const validationSchema = Yup.object().shape({});
+const INITIAL_VALUES: Values = {
+  activeStep: 0,
+  name: "",
+  email: "",
+  street: "",
+  suite: "",
+  zipcode: "",
+  phone: "",
+  website: "",
+  companyName: "",
+  catchPhrase: "",
+  bs: ""
+}
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string()
+    .when('activeStep', {
+      is: 1,
+      then: (schema) => schema.trim().strict(true).required('Required'),
+    })
+    .max(15, "Must be 15 characters or less"),
+  email: Yup.string()
+    .email("Invalid email addresss`")
+    .required("Required"),
+  street: Yup.string()
+    .max(40, "Must be 20 characters or less")
+    .required("Required"),
+  suite: Yup.string()
+    .max(40, "Must be 20 characters or less"),
+  //TODO zipcode
+  phoneNumber: Yup.string().matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, 'Invalid Phone'),
+
+});
 
 interface SignupFormProps {
   onSubmit: (values: any) => void;
@@ -48,13 +80,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
     <>
       <h1>Subscribe!</h1>
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          acceptedTerms: false,
-          jobType: "",
-        }}
+        initialValues={INITIAL_VALUES}
         validationSchema={Yup.object({
           firstName: Yup.string()
             .max(15, "Must be 15 characters or less")
@@ -123,7 +149,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               activeStep={activeStep}
               handleBack={handleBack}
               handleNext={() => handleNext(formik)}
-              disabled={!formik.isValid } 
             />
             {activeStep === 3 && <button type="submit">Submit</button>}
           </Form>)}
