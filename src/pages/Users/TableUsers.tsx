@@ -10,10 +10,11 @@ const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
 
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', width: 300 },
-        { field: 'username', headerName: 'Username', width: 300 },
-        { field: 'address', headerName: 'City', width: 300 },
+        { field: 'username', headerName: 'Username', width: 280 },
+        { field: 'address', headerName: 'City', width: 280 },
         { field: 'phone', headerName: 'Phone', width: 300 },
         { field: 'company', headerName: 'Company', width: 300 },
+        { field: 'email', headerName: 'Email', width: 350}
     ]
 
     return (
@@ -25,13 +26,14 @@ const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
             rows={data ? data.map((user: UsersType, index: number) => ({
                 id: user.id || index + 1,
                 name: user.name,
+                email: user.email,
                 username: user.username,
                 address: user.address.city, 
                 phone: user.phone,
                 company: user.company.name,
             })) : []}
             columns={columns}
-            sx={{...classes.dataGrid, mt:20 }}
+            sx={{...classes.dataGrid, mt:20}}
             autoHeight
         />
         </>

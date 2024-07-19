@@ -2,6 +2,7 @@ export interface UsersType {
     id?: number,
     name: string,
     username: string,
+    email: string,
     address: AddressType
     phone: string,
     website: string,
