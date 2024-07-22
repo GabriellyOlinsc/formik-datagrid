@@ -5,6 +5,8 @@ import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import Checkbox from "../../components/Checkbox";
 import { ProgressMobileStepper } from "../../components";
+import axiosInstance from "../../services/api";
+import { UsersType } from "../../model/users.interface";
 
 export interface Values {
   name: string;
@@ -50,7 +52,7 @@ const validationSchema = [
   }),
   Yup.object().shape({
     companyName: Yup.string()
-      .oneOf(["romaguera", "deckow", "robel", "keebler", "johns", "other"], 'Invalid Company')
+      .oneOf(["romaguera", "deckow", "Robel Corkery", "keebler", "johns", "other"], 'Invalid Company')
       .required("Required"),
     catchPhrase: Yup.string()
       .min(5, "Must be at least 5 characters")
@@ -68,11 +70,11 @@ interface SignupFormProps {
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
   const [activeStep, setActiveStep] = useState(0);
- 
+
   const handleNext = async (formik: FormikHelpers<any>, values: any) => {
     const validFields = validateStepsFields(values)
     const isValid = await formik.validateForm();
-  
+
     if (isValid && validFields) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -99,17 +101,47 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
     return isAllValid;
   }
 
+  const handleSubmit = async (values: Values, { resetForm }: FormikHelpers<Values>) => {
+    onSubmit(values)
+    resetProgress();
+    resetForm();
+    try {
+      const formattedData: UsersType = {
+        name: values.name,
+        email: values.email,
+        company: {
+          bs: values.bs || "",
+          catchPhrase: values.catchPhrase || "",
+          name: values.companyName
+        },
+        address: {
+          city: values.city,
+          street: values.street,
+          suite: values.suite,
+          zipcode: values.zipcode
+        },
+        username: values.name,
+        phone: values.phone,
+        website: values.website,
+      }
+
+      const response = await axiosInstance.post('/users', formattedData);
+
+      if (response.status === 201) {
+        console.log('User created successfully:', response.data);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
+
   return (
     <>
       <h1>Subscribe! </h1>
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema[activeStep]}
-        onSubmit={(values, { resetForm }) => {
-          resetProgress();
-          onSubmit(values);
-          resetForm();
-        }}
+        onSubmit={handleSubmit}
       >
         {(formik) => (
           <Form>

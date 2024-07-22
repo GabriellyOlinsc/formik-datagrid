@@ -3,7 +3,7 @@ export interface AddressType{
     suite: string,
     city: string,
     zipcode: string,
-    geo: GeoType,
+    geo?: GeoType,
 }
 
 export interface GeoType {

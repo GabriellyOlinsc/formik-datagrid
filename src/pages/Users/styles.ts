@@ -74,13 +74,9 @@ export const classes = {
         borderColor: lighten("rgba(113, 128, 150, 1)", 0.1),
       },
 
-      "&:last-of-type": {
-        borderRadius: "0 0 20px 20px",
-
-      },
 
       "&.Mui-selected": {
-        backgroundColor: lighten("rgba(0, 168, 76, 0.1)", 0.3),
+        backgroundColor: lighten("rgba(10, 150, 66, 0.2)", 0.2),
         color: 'rgba(255, 255, 255, 0.80)'
       },
 
