@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers, useFormikContext } from "formik";
 import * as Yup from "yup";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -7,6 +7,12 @@ import Checkbox from "../../components/Checkbox";
 import { ProgressMobileStepper } from "../../components";
 import axiosInstance from "../../services/api";
 import { UsersType } from "../../model/users.interface";
+import companyData from "./company"
+
+export interface CompanyType {
+  catchPhrase: string,
+  bs: string
+}
 
 export interface Values {
   name: string;
@@ -52,7 +58,7 @@ const validationSchema = [
   }),
   Yup.object().shape({
     companyName: Yup.string()
-      .oneOf(["romaguera", "deckow", "Robel Corkery", "keebler", "johns", "other"], 'Invalid Company')
+      .oneOf(["Romaguera Crona", "Deckow Crist", "Robel Corkery", "Keebler LLC", "Johns Group", "Other"], 'Invalid Company')
       .required("Required"),
     catchPhrase: Yup.string()
       .min(5, "Must be at least 5 characters")
@@ -69,12 +75,27 @@ interface SignupFormProps {
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
+  const [companyInfo, setCompanyInfo] = useState<CompanyType>({
+    catchPhrase: '',
+    bs: ''
+  });
+
+  const handleCompanyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const companyName = event.target.value;
+
+    if (companyData.hasOwnProperty(companyName)) {
+      const { catchPhrase, bs } = companyData[companyName as keyof typeof companyData];
+      setCompanyInfo({ catchPhrase, bs });
+    } else {
+      setCompanyInfo({ catchPhrase: '', bs: '' });
+    }
+  };
 
   const handleNext = async (formik: FormikHelpers<any>, values: any) => {
     const validFields = validateStepsFields(values)
     const isValid = await formik.validateForm();
-
+    
     if (isValid && validFields) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -169,17 +190,17 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
 
             {activeStep === 2 && (
               <>
-                <Select label="Company" name="companyName">
+                <Select label="Company" name="companyName" onClick={handleCompanyChange}>
                   <option value="">Select a company</option>
-                  <option value="romaguera">Romaguera Crona</option>
-                  <option value="deckow">Deckow Crist</option>
-                  <option value="Robel Corkery">Robel Corkery</option>
-                  <option value="keebler">Keebler LLC</option>
-                  <option value="johns">Johns Group</option>
-                  <option value="other">Other</option>
+                  {Object.keys(companyData).map((companyName) => (
+                    <option key={companyName} value={companyName}>
+                      {companyName}
+                    </option>
+                  ))}
+                   <option value="Other">Other</option>
                 </Select>
-                <TextInput label="Catch Phrase" name="catchPhrase" type="text" placeholder="" />
-                <TextInput label="BS" name="bs" type="text" placeholder="" />
+                <TextInput label="Catch Phrase" name="catchPhrase" type="text" placeholder=""  value={companyInfo.catchPhrase} disabled={!!companyInfo.catchPhrase} />
+                <TextInput label="BS" name="bs" type="text" placeholder="" value={companyInfo.bs} disabled={!!companyInfo.bs} />
                 <Checkbox name="acceptedTerms">
                   I accept the terms and conditions
                 </Checkbox>
