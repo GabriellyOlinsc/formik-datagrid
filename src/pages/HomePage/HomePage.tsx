@@ -4,15 +4,18 @@ import DataTable from "./DataTable";
 import { useState } from "react";
 import ButtonAppBar from "../../components/ButtonAppBar";
 import { useNavigate } from "react-router-dom";
+import { UsersType } from "../../model/users.interface";
 
 export default function HomePage() {
-  const [formDataList, setFormDataList] = useState<any[]>([])
+  const [formDataList, setFormDataList] = useState<UsersType[]>([])
   const navigate = useNavigate()
 
-  const handleSubmit = (data: any) => {
-    setFormDataList([...formDataList, data]);
+  const handleSubmit = (data: UsersType) => {
+    const updatedFormDataList = [...formDataList, data];
+    setFormDataList(updatedFormDataList);
+    localStorage.setItem("formDataList", JSON.stringify(updatedFormDataList));
   }
-  
+   
   const handleClick = () => {
     navigate("/users")
   }
