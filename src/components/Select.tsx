@@ -4,14 +4,11 @@ import "../styles-custom.css";
 import { useField, FieldAttributes } from "formik";
 import React from "react";
 
-
 interface SelectProps extends FieldAttributes<any> {
   label: string;
-  children: React.ReactNode; // Garante que 'children' seja passado corretamente
+  children: React.ReactNode;
 }
 
-
-// Styled components ....
 const StyledSelect = styled.select`
   color: var(--blue);
 `;
@@ -35,7 +32,7 @@ const StyledLabel = styled.label`
 `;
 
 export default function Select({ label, ...props }: SelectProps) {
-  const [field, meta] = useField(props.name || ""); // Garantindo que 'name' seja passado como string
+  const [field, meta] = useField(props.name || ""); 
   return (
     <>
       <StyledLabel htmlFor={props.id || props.name}>{label}</StyledLabel>

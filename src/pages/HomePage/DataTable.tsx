@@ -8,10 +8,10 @@ interface DataTableProps {
 const DataTable: React.FC<DataTableProps> = ({ formData }) => {
 
     const columns: GridColDef[] = [
-        { field: 'firstName', headerName: 'First Name', width: 200 },
-        { field: 'lastName', headerName: 'Last Name', width: 230 },
+        { field: 'name', headerName: 'Name', width: 230 },
         { field: 'email', headerName: 'Email', width: 280 },
-        { field: 'jobType', headerName: 'Job Type', width: 230 }
+        { field: 'phone', headerName: 'Phone', width: 230 },
+        { field: 'companyName', headerName: 'Company', width: 230 }
     ]
 
     return (
