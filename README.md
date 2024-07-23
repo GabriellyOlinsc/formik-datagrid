@@ -1,14 +1,10 @@
-# Employee's System App
-
-<hr>
+# Employee's Web App
 
 <p align="center">
    <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge" #vitrinedev/>
 </p>
 
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This service is a simple front-end app developed to explore essential components and concepts. 
-
+This project is a simple front-end application developed to explore concepts and components using React and Material-UI (MUI). It interacts with JSONPlaceholder API to simulate basic CRUD operations for managing user information.
 ##Technologies
 
 
@@ -20,10 +16,13 @@ First, install the dependencies:
 npm install or yarn 
 
 ```
+
 In the project directory, you can run:
 
-### `npm start`
+```bash
+npm start 
 
+```
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
