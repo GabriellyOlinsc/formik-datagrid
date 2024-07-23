@@ -1,9 +1,25 @@
-# Getting Started with Create React App
+# Employee's System App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<hr>
 
-## Available Scripts
+<p align="center">
+   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge" #vitrinedev/>
+</p>
 
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). This service is a simple front-end app developed to explore essential components and concepts. 
+
+##Technologies
+
+
+## Getting Started
+
+First, install the dependencies:
+
+```bash
+npm install or yarn 
+
+```
 In the project directory, you can run:
 
 ### `npm start`
