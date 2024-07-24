@@ -5,8 +5,14 @@
 </p>
 
 This project is a simple front-end application developed to explore concepts and components using React and Material-UI (MUI). It interacts with JSONPlaceholder API to simulate basic CRUD operations for managing user information.
-##Technologies
 
+## Technologies
+
+* Typescript
+* React JS
+* Material UI
+* Axios
+* JSONPlaceholder 
 
 ## Getting Started
 
