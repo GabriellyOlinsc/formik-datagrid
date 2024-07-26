@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../services/api";
-import ButtonAppBar from "../../components/ButtonAppBar";
 import TableUsers from "./TableUsers";
 import { UsersType } from "../../model/users.interface";
-import HomeIcon from '@material-ui/icons/Home';
 
 export default function Users() {
   const [userList, setUserList] = useState<UsersType[]>([]);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/");
-  };
-
+  
   useEffect(() => {
     axiosInstance
       .get("users")
@@ -34,9 +26,6 @@ export default function Users() {
   }, []);
 
   return (
-    <>
-      <ButtonAppBar onClick={handleClick} icon={HomeIcon}/>
       <TableUsers data={userList} />
-    </>
   );
 }
