@@ -15,8 +15,8 @@ export const classes = {
   },
 
   dataGrid: {
-    height: 'auto',
-    width: 'auto',
+    height: '100%',
+    width: '100%', 
     backgroundColor: lighten("rgba(26, 32, 44, 1)", 0.0),
     fontSize: "16px",
     border: "1px solid",
@@ -38,12 +38,13 @@ export const classes = {
 
     "& .MuiDataGrid-columnHeader": {
       px: 1,
-
+      overflow: 'hidden',
+      flex: 1,
       "&:focus": {
         outline: "none",
       },
 
-      "& >.MuiDataGrid-columnSeparator": {
+      "& > .MuiDataGrid-columnSeparator": {
         display: "none",
       },
     },
@@ -74,12 +75,12 @@ export const classes = {
         backgroundColor: lighten("rgba(45, 55, 72, 1)", 0.2),
         color: 'rgba(255, 255, 255, 0.80)',
         border: '1px solid',
-        borderColor:  lighten("rgba(45, 55, 72, 1)", 0.2),
+        borderColor: lighten("rgba(45, 55, 72, 1)", 0.2),
       },
 
       "&:hover": {
         border: "1px solid",
-        borderColor:  lighten("rgba(26, 32, 67, 0.53)", 0.3),
+        borderColor: lighten("rgba(26, 32, 67, 0.53)", 0.3),
         borderRadius: 1,
         cursor: "pointer",
         color: 'rgba(255, 255, 255, 1)',
@@ -93,6 +94,11 @@ export const classes = {
           display: "inline-block",
         },
       },
+    },
+
+    "& .MuiDataGrid-filler": {
+      display: 'none',
+      backgroundColor: lighten("rgba(26, 32, 67, 0.53)", 0.3),
     },
   },
 };
