@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, FormikHelpers, useFormikContext } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -16,6 +16,7 @@ export interface CompanyType {
 
 export interface Values {
   name: string;
+  username: string;
   email: string;
   city: string;
   street: string;
@@ -31,6 +32,7 @@ export interface Values {
 
 const INITIAL_VALUES: Values = {
   name: "",
+  username: "",
   email: "",
   city: "",
   street: "",
@@ -47,23 +49,36 @@ const INITIAL_VALUES: Values = {
 const validationSchema = [
   Yup.object().shape({
     name: Yup.string().required("Required"),
+    username: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
     phone: Yup.string().matches(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Invalid Phone"),
-    website: Yup.string().url("Must be an URL").required("Required"),
   }),
   Yup.object().shape({
     city: Yup.string().required("Required"),
     street: Yup.string().required("Required"),
     zipcode: Yup.string().required("Required"),
+    website: Yup.string().url("Must be an URL").required("Required"),
   }),
   Yup.object().shape({
     companyName: Yup.string()
       .oneOf(["Romaguera Crona", "Deckow Crist", "Robel Corkery", "Keebler LLC", "Johns Group", "Other"], 'Invalid Company')
       .required("Required"),
     catchPhrase: Yup.string()
-      .min(5, "Must be at least 5 characters")
-      .required("Required"),
-    bs: Yup.string().min(5, "Must be at least 5 characters").required("Required"),
+      .test('catchPhrase', 'Catch Phrase is required', function (value) {
+        const { companyName } = this.parent;
+        if (companyName === 'Other') {
+          return !!value && value.length >= 5;
+        }
+        return true;
+      }),
+    bs: Yup.string()
+      .test('bs', 'BS is required', function (value) {
+        const { companyName } = this.parent;
+        if (companyName === 'Other') {
+          return !!value && value.length >= 5;
+        }
+        return true;
+      }),
     acceptedTerms: Yup.boolean()
       .required("Required")
       .oneOf([true], "You must accept the terms and conditions."),
@@ -75,7 +90,7 @@ interface SignupFormProps {
 }
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
   const [companyInfo, setCompanyInfo] = useState<CompanyType>({
     catchPhrase: '',
     bs: ''
@@ -95,7 +110,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
   const handleNext = async (formik: FormikHelpers<any>, values: any) => {
     const validFields = validateStepsFields(values)
     const isValid = await formik.validateForm();
-    
+
     if (isValid && validFields) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -113,6 +128,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
     let isAllValid = true;
     const visibleFields = Object.keys(validationSchema[activeStep].fields);
 
+    if(visibleFields.includes('companyName')) {
+      const companyName = values['companyName']
+
+      values['bs'] = companyData[companyName].bs
+      values['catchPhrase'] = companyData[companyName].catchPhrase
+    }
+    
     visibleFields.forEach((field: string) => {
       const fieldValue = values[field];
       if (fieldValue === '' || !fieldValue) {
@@ -123,10 +145,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
   }
 
   const handleSubmit = async (values: Values, { resetForm }: FormikHelpers<Values>) => {
-    onSubmit(values)
+    validateStepsFields(values)
     resetProgress();
     resetForm();
-    try {
+    
       const formattedData: UsersType = {
         name: values.name,
         email: values.email,
@@ -141,11 +163,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
           suite: values.suite,
           zipcode: values.zipcode
         },
-        username: values.name,
+        username: values.username,
         phone: values.phone,
         website: values.website,
       }
+      onSubmit(formattedData)
 
+    try {  
       const response = await axiosInstance.post('/users', formattedData);
 
       if (response.status === 201) {
@@ -169,6 +193,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
             {activeStep === 0 && (
               <>
                 <TextInput label="Name" name="name" type="text" placeholder="" />
+                <TextInput label="Username" name="username" type="text" placeholder="" />
                 <TextInput
                   label="Email Address"
                   name="email"
@@ -176,7 +201,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                   placeholder="jane@formik.com"
                 />
                 <TextInput label="Phone Number" name="phone" type="text" placeholder="(00) 91111-2222" />
-                <TextInput label="Website" name="website" type="text" placeholder="https//formik.com" />
               </>
             )}
 
@@ -185,6 +209,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                 <TextInput label="City" name="city" type="text" placeholder="" />
                 <TextInput label="Street Address" name="street" type="text" placeholder="" />
                 <TextInput label="Zipcode" name="zipcode" type="text" placeholder="" />
+                <TextInput label="Website" name="website" type="text" placeholder="https//formik.com" />
               </>
             )}
 
@@ -197,9 +222,9 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                       {companyName}
                     </option>
                   ))}
-                   <option value="Other">Other</option>
+                  <option value="Other">Other</option>
                 </Select>
-                <TextInput label="Catch Phrase" name="catchPhrase" type="text" placeholder=""  value={companyInfo.catchPhrase} disabled={!!companyInfo.catchPhrase} />
+                <TextInput label="Catch Phrase" name="catchPhrase" type="text" placeholder="" value={companyInfo.catchPhrase} disabled={!!companyInfo.catchPhrase} />
                 <TextInput label="BS" name="bs" type="text" placeholder="" value={companyInfo.bs} disabled={!!companyInfo.bs} />
                 <Checkbox name="acceptedTerms">
                   I accept the terms and conditions
