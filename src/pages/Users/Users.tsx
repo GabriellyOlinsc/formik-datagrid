@@ -4,6 +4,7 @@ import axiosInstance from "../../services/api";
 import ButtonAppBar from "../../components/ButtonAppBar";
 import TableUsers from "./TableUsers";
 import { UsersType } from "../../model/users.interface";
+import HomeIcon from '@material-ui/icons/Home';
 
 export default function Users() {
   const [userList, setUserList] = useState<UsersType[]>([]);
@@ -23,7 +24,7 @@ export default function Users() {
         if (localStorageData) {
           const localUsers = JSON.parse(localStorageData);
           const combinedUsers = [...apiUsers, ...localUsers];
-
+        
           setUserList(combinedUsers);
         } else {
           setUserList(apiUsers);
@@ -34,7 +35,7 @@ export default function Users() {
 
   return (
     <>
-      <ButtonAppBar onClick={handleClick} title="HOME" />
+      <ButtonAppBar onClick={handleClick} icon={HomeIcon}/>
       <TableUsers data={userList} />
     </>
   );

@@ -28,12 +28,12 @@ const ProgressMobileStepper: React.FC<ProgressMobileStepperProps> = ({
       activeStep={activeStep}
       sx={{ mt: 5, width: '90%', flexGrow: 1, backgroundColor: '#1a202c' }}
       nextButton={
-        activeStep !== 3 ?
+        activeStep !== 2 ?
         <Button
           size="medium"
           onClick={formIsValid ? handleNext : undefined}
           sx={{ color: '#f7fafc', fontSize: 18, pl: 3, width:20}}
-          disabled={activeStep === 3}
+          disabled={activeStep === 2}
         >
           NEXT
           {theme.direction === 'rtl' ? (

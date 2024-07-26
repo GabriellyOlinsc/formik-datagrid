@@ -39,7 +39,6 @@ export const classes = {
     "& .MuiDataGrid-columnHeader": {
       px: 1,
 
-
       "&:focus": {
         outline: "none",
       },
@@ -64,9 +63,6 @@ export const classes = {
       backgroundColor: lighten("rgba(160, 174, 192, 1)", 0.1),
       border: "1px solid",
       borderColor: lighten("rgba(45, 55, 72, 1)", 0.1),
-      
-      //colors: lighten("rgba(1,1,1,1)",0.1),
-
 
       "&:nth-of-type(2n + 1)": {
         backgroundColor: lighten("rgba(113, 128, 150, 1)", 0.1),
@@ -74,18 +70,20 @@ export const classes = {
         borderColor: lighten("rgba(113, 128, 150, 1)", 0.1),
       },
 
-
       "&.Mui-selected": {
-        backgroundColor: lighten("rgba(10, 150, 66, 0.2)", 0.2),
-        color: 'rgba(255, 255, 255, 0.80)'
+        backgroundColor: lighten("rgba(45, 55, 72, 1)", 0.2),
+        color: 'rgba(255, 255, 255, 0.80)',
+        border: '1px solid',
+        borderColor:  lighten("rgba(45, 55, 72, 1)", 0.2),
       },
 
       "&:hover": {
-        border: "1px solid #00A84C",
+        border: "1px solid",
+        borderColor:  lighten("rgba(26, 32, 67, 0.53)", 0.3),
         borderRadius: 1,
         cursor: "pointer",
-        color: 'rgba(255, 255, 255, 0.80)',
-        backgroundColor: lighten("rgba(0, 168, 76, 0.1)", 0.3),
+        color: 'rgba(255, 255, 255, 1)',
+        backgroundColor: lighten("rgba(26, 32, 67, 0.53)", 0.3),
 
         "&:last-of-type": {
           borderRadius: "0 0 20px 20px",
