@@ -1,19 +1,17 @@
 import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
 import { classes } from './styles';
 import { UsersType } from '../../model/users.interface';
-import { useState } from 'react';
 
 interface TableUsersProps {
     data: UsersType[];
 }
 
 const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
-    const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', width: 300 },
-        { field: 'username', headerName: 'Username', width: 190 },
-        { field: 'address', headerName: 'City', width: 200 },
+        { field: 'username', headerName: 'Username', width: 210 },
+        { field: 'address', headerName: 'City', width: 210 },
         { field: 'phone', headerName: 'Phone', width: 250 },
         { field: 'company', headerName: 'Company', width: 250 },
         { field: 'email', headerName: 'Email', width: 300}
@@ -36,8 +34,7 @@ const TableUsers: React.FC<TableUsersProps> = ({ data }) => {
             sx={{...classes.dataGrid, mt:20}}
             autoHeight
             checkboxSelection
-          //  disableRowSelectionOnClick
-            pageSizeOptions={[5,10,15]}
+            pageSizeOptions={[5]}
         />
         </>
     )
