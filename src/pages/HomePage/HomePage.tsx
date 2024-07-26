@@ -2,32 +2,24 @@ import { Box, Grid } from "@mui/material";
 import SignupForm from "./SignupForm";
 import DataTable from "./DataTable";
 import { useState } from "react";
-import ButtonAppBar from "../../components/ButtonAppBar";
-import { useNavigate } from "react-router-dom";
 import { UsersType } from "../../model/users.interface";
 
 export default function HomePage() {
   const [formDataList, setFormDataList] = useState<UsersType[]>([])
-  const navigate = useNavigate()
 
   const handleSubmit = (data: UsersType) => {
-    
+    let updatedFormDataList = [...formDataList, data];
+    setFormDataList(updatedFormDataList);
+
     const localStorageData = localStorage.getItem("formDataList");
     const localUsers = localStorageData ? JSON.parse(localStorageData) : [];
 
-    const updatedFormDataList = [...localUsers, ...formDataList, data];
-
+    updatedFormDataList.push(...localUsers)
     localStorage.setItem("formDataList", JSON.stringify(updatedFormDataList));
-    setFormDataList(updatedFormDataList);
-  }
-
-  const handleClick = () => {
-    navigate("/users")
   }
 
   return (
     <>
-      <ButtonAppBar onClick={handleClick} title="View Users" />
       <Box sx={{
         '@media print': {
           width: '1500px',
