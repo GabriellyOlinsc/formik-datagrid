@@ -26,8 +26,8 @@ export default function HomePage() {
           maxWidth: '80vw'
         }
       }}>
-        <Grid container direction="row" spacing={2} sx={{ mt: 18 }} columns={{ xs: 6, sm: 6, md: 12 }}>
-          <Grid item xs={3} sm={5}>
+        <Grid container direction="row" spacing={10} sx={{ mt: 10 }} columns={{ xs: 6, sm: 6, md: 12 }}>
+          <Grid item xs={3} sm={5} >
             <SignupForm onSubmit={handleSubmit} />
           </Grid>
           <Grid item xs={9} sm={7} sx={{ mt: 4 }}>

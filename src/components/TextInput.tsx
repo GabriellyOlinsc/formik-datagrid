@@ -1,5 +1,4 @@
 import { useField } from "formik";
-import React from "react";
 
 interface TextInputProps {
   id?:string
@@ -13,6 +12,7 @@ interface TextInputProps {
 
 export default function TextInput({ label, ...props }: TextInputProps){
   const [field, meta] = useField(props.name);
+  
   return (
     <>
       <label htmlFor={props.id || props.name}>{label}</label>

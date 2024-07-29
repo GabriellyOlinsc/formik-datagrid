@@ -5,6 +5,7 @@ import SignupForm from "../pages/HomePage/SignupForm"
 import MainPage from "../pages/HomePage/HomePage"
 import DataTable from "../pages/HomePage/DataTable"
 import ProgressMobileStepper from "../components/ProgressMobileStepper"
+import Search from './Search'
 
 export {
     TextInput,
@@ -13,5 +14,6 @@ export {
     SignupForm,
     MainPage,
     DataTable,
-    ProgressMobileStepper
+    ProgressMobileStepper,
+    Search
 }
