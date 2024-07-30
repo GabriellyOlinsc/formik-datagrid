@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "../../services/api";
+import axiosInstance from "../../services/web-api";
 import TableUsers from "./TableUsers";
 import { UsersType } from "../../model/users.interface";
 

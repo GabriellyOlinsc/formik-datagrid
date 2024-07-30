@@ -178,9 +178,10 @@
     font-weight: bold;
     display: flex;
   }
-  
+/*   
   input[type="email"],
   input[type="text"],
+  input[type="password"]
   input[type="number"] {
     padding: 0.65rem 0.5rem;
     font-size: 1rem;
@@ -199,6 +200,7 @@
   @media (prefers-color-scheme: dark) {
     input[type="email"],
     input[type="text"],
+    input[type="password"]
     input[type="number"] {
       background-color: var(--gray-800);
       border-color: var(--gray-700);
@@ -216,11 +218,12 @@
   
   input[type="email"],
   input[type="text"],
+  input[type="password"]
   input[type="number"],
   textarea,
   select {
     width: 400px;
-  }
+  } */
   
   select {
     margin: 0;
@@ -630,15 +633,16 @@
   button[type="reset"]:hover {
     background-color: var(--gray-400);
   }
-  
+/*   
   /* custom */
-  input[type="email"],
+  input[type="email"]
+  input[type="password"],
   input[type="text"],
   input[type="number"],
   textarea,
   select {
     width: 400px;
-  }
+  } */
   
   label {
     margin-top: 1rem;

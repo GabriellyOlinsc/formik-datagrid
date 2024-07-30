@@ -5,9 +5,10 @@ import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import Checkbox from "../../components/Checkbox";
 import { ProgressMobileStepper } from "../../components";
-import axiosInstance from "../../services/api";
+import axiosInstance from "../../services/web-api";
 import { UsersType } from "../../model/users.interface";
 import companyData from "./company"
+import { TextField } from "@material-ui/core";
 
 export interface CompanyType {
   catchPhrase: string,
@@ -192,6 +193,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
           <Form>
             {activeStep === 0 && (
               <>
+              <TextField  label="gaby"/>
                 <TextInput label="Name" name="name" type="text" placeholder="" />
                 <TextInput label="Username" name="username" type="text" placeholder="" />
                 <TextInput

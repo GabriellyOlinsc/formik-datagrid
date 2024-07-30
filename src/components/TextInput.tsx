@@ -1,25 +1,31 @@
+import { TextField } from "@material-ui/core";
 import { useField } from "formik";
 
 interface TextInputProps {
-  id?:string
+  id?: string
   label: string;
   name: string;
   type: string;
-  placeholder: string;
+  placeholder?: string;
   disabled?: boolean;
   value?: string
 }
 
-export default function TextInput({ label, ...props }: TextInputProps){
+export default function TextInput({ label, type, ...props }: TextInputProps) {
   const [field, meta] = useField(props.name);
-  
+
   return (
-    <>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input {...field} {...props}  value={props.value ? props.value : field.value} className={`text-input ${meta.touched && meta.error ? 'is-invalid' : ''}`}/>
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </>
+    <TextField
+      id={props.id || props.name}
+      label={label}
+      type={type}
+      variant="filled" // Alterado para o estilo "filled"
+      fullWidth
+      {...field}
+      {...props}
+      value={props.value || field.value}
+      error={Boolean(meta.touched && meta.error)}
+      helperText={meta.touched && meta.error ? meta.error : ''}
+    />
   );
 };
