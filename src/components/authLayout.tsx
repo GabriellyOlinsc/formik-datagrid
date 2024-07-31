@@ -6,14 +6,12 @@ export default function AuthLayout({
     children: React.ReactElement,
     padding?: number | string
 }): React.ReactElement {
-
     
     const containerStyles = {
         minHeight: '80vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-       // backgroundColor: '#f5f5f5', // Cor de fundo para a tela
     };
 
     const paperStyles = {
@@ -21,8 +19,8 @@ export default function AuthLayout({
         maxWidth: 540,
         minHeight: 600, 
         borderRadius: '24px',
-        backgroundColor: '#718096',
-        padding: padding,
+        backgroundColor: '#2d3748',
+        padding: padding || 1,
         boxShadow: 3,
         '@media (max-width: 1200px)': {
             width: 440,

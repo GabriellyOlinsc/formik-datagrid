@@ -1,46 +1,17 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { MainPage } from "./components";
 import { Login, Tasks, Users } from "./pages";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import ButtonAppBar from "./components/ButtonAppBar";
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import { selectIsAuthenticated } from "./store/modules/slice";
+import { selectIsAuthenticated } from "./store/modules/auth/slice";
+import theme from "./theme";
+import { useTheme } from "@emotion/react";
 
-const theme = createTheme({
-    palette: {
-        mode: 'dark',
-        text: {
-            primary: '#ffffff',
-        },
-        background: {
-            default: '#2d3748',
-        },
-    },
-    direction: "ltr",
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                root: {
-                    '& .MuiOutlinedInput-root': {
-                        '& input': {
-                            color: '#ffffff', // Cor do texto do input
-                        },
-                        '&.Mui-focused fieldset': {
-                            borderColor: '#ffffff', // Cor da borda do campo quando focado
-                        },
-                    },
-                    '& .MuiFormLabel-root': {
-                        color: '#ffffff', // Cor do texto do label
-                    },
-                },
-            },
-        },
-    },
-});
 
 function App() {
     const isAuthenticated = useSelector((state: RootState) => selectIsAuthenticated(state));
