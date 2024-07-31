@@ -1,31 +1,64 @@
-import { TextField } from "@material-ui/core";
+import { IconButton, InputAdornment } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { SxProps, TextFieldVariants } from "@mui/material";
 import { useField } from "formik";
+import { useState } from "react";
+
+const classes = {
+  color: 'primary'
+}
 
 interface TextInputProps {
   id?: string
+  sx?: SxProps
+  removeUnderline?: boolean
+  variant?: TextFieldVariants
   label: string;
   name: string;
-  type: string;
+  type?: string;
   placeholder?: string;
   disabled?: boolean;
   value?: string
 }
 
-export default function TextInput({ label, type, ...props }: TextInputProps) {
+export default function TextInput({ label, ...props }: TextInputProps) {
   const [field, meta] = useField(props.name);
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const fieldProps = {
+    endAdornment: props.type === 'password' ? (
+      <InputAdornment position="end">
+          <IconButton
+            aria-label="toggle password visibility"
+            onClick={handleClickShowPassword}
+            edge="end"
+          >
+            {showPassword ? <VisibilityOff color="inherit" /> : <Visibility color="inherit" />}
+          </IconButton>
+        </InputAdornment>
+    ) : null
+  }
 
   return (
     <TextField
       id={props.id || props.name}
+      color='primary'
       label={label}
-      type={type}
-      variant="filled" // Alterado para o estilo "filled"
+      variant={!props.variant ? 'outlined' : props.variant}
+      type={props.type === 'password' ? (showPassword ? 'text' : 'password') : props.type}
       fullWidth
       {...field}
       {...props}
+      sx={{...props.sx, mb: 2, color: "#fffff" }}
       value={props.value || field.value}
       error={Boolean(meta.touched && meta.error)}
       helperText={meta.touched && meta.error ? meta.error : ''}
+      InputProps={fieldProps}
     />
   );
 };

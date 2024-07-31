@@ -7,12 +7,18 @@ import Checkbox from "../../components/Checkbox";
 import { ProgressMobileStepper } from "../../components";
 import axiosInstance from "../../services/web-api";
 import { UsersType } from "../../model/users.interface";
-import companyData from "./company"
-import { TextField } from "@material-ui/core";
+import companyData from "./company";
+
+//todo:  tirar o variant outlined
+
+const classes = {
+ // backgroundColor: "#2d3748",
+  m: '9px 0 1px 0'
+};
 
 export interface CompanyType {
-  catchPhrase: string,
-  bs: string
+  catchPhrase: string;
+  bs: string;
 }
 
 export interface Values {
@@ -62,24 +68,36 @@ const validationSchema = [
   }),
   Yup.object().shape({
     companyName: Yup.string()
-      .oneOf(["Romaguera Crona", "Deckow Crist", "Robel Corkery", "Keebler LLC", "Johns Group", "Other"], 'Invalid Company')
+      .oneOf(
+        [
+          "Romaguera Crona",
+          "Deckow Crist",
+          "Robel Corkery",
+          "Keebler LLC",
+          "Johns Group",
+          "Other",
+        ],
+        "Invalid Company"
+      )
       .required("Required"),
-    catchPhrase: Yup.string()
-      .test('catchPhrase', 'Catch Phrase is required', function (value) {
+    catchPhrase: Yup.string().test(
+      "catchPhrase",
+      "Catch Phrase is required",
+      function (value) {
         const { companyName } = this.parent;
-        if (companyName === 'Other') {
+        if (companyName === "Other") {
           return !!value && value.length >= 5;
         }
         return true;
-      }),
-    bs: Yup.string()
-      .test('bs', 'BS is required', function (value) {
-        const { companyName } = this.parent;
-        if (companyName === 'Other') {
-          return !!value && value.length >= 5;
-        }
-        return true;
-      }),
+      }
+    ),
+    bs: Yup.string().test("bs", "BS is required", function (value) {
+      const { companyName } = this.parent;
+      if (companyName === "Other") {
+        return !!value && value.length >= 5;
+      }
+      return true;
+    }),
     acceptedTerms: Yup.boolean()
       .required("Required")
       .oneOf([true], "You must accept the terms and conditions."),
@@ -93,23 +111,24 @@ interface SignupFormProps {
 const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [companyInfo, setCompanyInfo] = useState<CompanyType>({
-    catchPhrase: '',
-    bs: ''
+    catchPhrase: "",
+    bs: "",
   });
 
   const handleCompanyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const companyName = event.target.value;
 
     if (companyData.hasOwnProperty(companyName)) {
-      const { catchPhrase, bs } = companyData[companyName as keyof typeof companyData];
+      const { catchPhrase, bs } =
+        companyData[companyName as keyof typeof companyData];
       setCompanyInfo({ catchPhrase, bs });
     } else {
-      setCompanyInfo({ catchPhrase: '', bs: '' });
+      setCompanyInfo({ catchPhrase: "", bs: "" });
     }
   };
 
   const handleNext = async (formik: FormikHelpers<any>, values: any) => {
-    const validFields = validateStepsFields(values)
+    const validFields = validateStepsFields(values);
     const isValid = await formik.validateForm();
 
     if (isValid && validFields) {
@@ -125,59 +144,65 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
     setActiveStep(0);
   };
 
-  const validateStepsFields = (values: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) => {
+  const validateStepsFields = (values: {
+    [x: string]: any;
+    hasOwnProperty: (arg0: string) => any;
+  }) => {
     let isAllValid = true;
     const visibleFields = Object.keys(validationSchema[activeStep].fields);
 
-    if(visibleFields.includes('companyName')) {
-      const companyName = values['companyName']
+    if (visibleFields.includes("companyName")) {
+      const companyName = values["companyName"];
 
-      values['bs'] = companyData[companyName].bs
-      values['catchPhrase'] = companyData[companyName].catchPhrase
+      values["bs"] = companyData[companyName].bs;
+      values["catchPhrase"] = companyData[companyName].catchPhrase;
     }
-    
+
     visibleFields.forEach((field: string) => {
       const fieldValue = values[field];
-      if (fieldValue === '' || !fieldValue) {
+      if (fieldValue === "" || !fieldValue) {
         isAllValid = false;
       }
-    })
+    });
     return isAllValid;
-  }
+  };
 
-  const handleSubmit = async (values: Values, { resetForm }: FormikHelpers<Values>) => {
-    validateStepsFields(values)
+  const handleSubmit = async (
+    values: Values,
+    { resetForm }: FormikHelpers<Values>
+  ) => {
+    validateStepsFields(values);
     resetProgress();
     resetForm();
-    
-      const formattedData: UsersType = {
-        name: values.name,
-        email: values.email,
-        company: {
-          bs: values.bs || "",
-          catchPhrase: values.catchPhrase || "",
-          name: values.companyName
-        },
-        address: {
-          city: values.city,
-          street: values.street,
-          suite: values.suite,
-          zipcode: values.zipcode
-        },
-        username: values.username,
-        phone: values.phone,
-        website: values.website,
-      }
-      onSubmit(formattedData)
 
-    try {  
-      const response = await axiosInstance.post('/users', formattedData);
+    const formattedData: UsersType = {
+      name: values.name,
+      email: values.email,
+      company: {
+        bs: values.bs || "",
+        catchPhrase: values.catchPhrase || "",
+        name: values.companyName,
+      },
+      address: {
+        city: values.city,
+        street: values.street,
+        suite: values.suite,
+        zipcode: values.zipcode,
+      },
+      username: values.username,
+      phone: values.phone,
+      website: values.website,
+    };
+    onSubmit(formattedData);
+
+    try {
+      const response = await axiosInstance.post("/users", formattedData);
 
       if (response.status === 201) {
-        console.log('User created successfully:', response.data);
+        console.log("User created successfully:", response.data);
       }
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error("Error creating user:", error);
     }
   };
 
@@ -193,31 +218,86 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
           <Form>
             {activeStep === 0 && (
               <>
-              <TextField  label="gaby"/>
-                <TextInput label="Name" name="name" type="text" placeholder="" />
-                <TextInput label="Username" name="username" type="text" placeholder="" />
                 <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Name"
+                  name="name"
+                  type="text"
+                  placeholder=""
+                />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Username"
+                  name="username"
+                  type="text"
+                  placeholder=""
+                />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
                   label="Email Address"
                   name="email"
                   type="email"
                   placeholder="jane@formik.com"
                 />
-                <TextInput label="Phone Number" name="phone" type="text" placeholder="(00) 91111-2222" />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Phone Number"
+                  name="phone"
+                  type="text"
+                  placeholder="(00) 91111-2222"
+                />
               </>
             )}
 
             {activeStep === 1 && (
               <>
-                <TextInput label="City" name="city" type="text" placeholder="" />
-                <TextInput label="Street Address" name="street" type="text" placeholder="" />
-                <TextInput label="Zipcode" name="zipcode" type="text" placeholder="" />
-                <TextInput label="Website" name="website" type="text" placeholder="https//formik.com" />
+                <TextInput
+                  sx={ classes}
+                  variant="filled"
+                  label="City"
+                  name="city"
+                  type="text"
+                  placeholder=""
+                />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Street Address"
+                  name="street"
+                  type="text"
+                  placeholder=""
+                />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Zipcode"
+                  name="zipcode"
+                  type="text"
+                  placeholder=""
+                />
+                <TextInput
+                  sx={classes}
+                  variant="filled"
+                  label="Website"
+                  name="website"
+                  type="text"
+                  placeholder="https//formik.com"
+                />
               </>
             )}
 
             {activeStep === 2 && (
               <>
-                <Select label="Company" name="companyName" onClick={handleCompanyChange}>
+                <Select
+                  sx={classes}
+                  label="Company"
+                  name="companyName"
+                  onClick={handleCompanyChange}
+                >
                   <option value="">Select a company</option>
                   {Object.keys(companyData).map((companyName) => (
                     <option key={companyName} value={companyName}>
@@ -226,8 +306,26 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                   ))}
                   <option value="Other">Other</option>
                 </Select>
-                <TextInput label="Catch Phrase" name="catchPhrase" type="text" placeholder="" value={companyInfo.catchPhrase} disabled={!!companyInfo.catchPhrase} />
-                <TextInput label="BS" name="bs" type="text" placeholder="" value={companyInfo.bs} disabled={!!companyInfo.bs} />
+                <TextInput
+                  sx={classes}
+                  label="Catch Phrase"
+                  name="catchPhrase"
+                  variant="filled"
+                  type="text"
+                  placeholder=""
+                  value={companyInfo.catchPhrase}
+                  disabled={!!companyInfo.catchPhrase}
+                />
+                <TextInput
+                  sx={classes}
+                  label="BS"
+                  variant="filled"
+                  name="bs"
+                  type="text"
+                  placeholder=""
+                  value={companyInfo.bs}
+                  disabled={!!companyInfo.bs}
+                />
                 <Checkbox name="acceptedTerms">
                   I accept the terms and conditions
                 </Checkbox>
