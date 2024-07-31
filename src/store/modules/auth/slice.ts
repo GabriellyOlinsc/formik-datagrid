@@ -1,7 +1,7 @@
 // store/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState } from './types';
-import { RootState } from '../store';
+import { AuthState } from '../auth/types';
+import { RootState } from '../../store';
 
 const initialState: AuthState = {
   user: null,
@@ -35,14 +35,12 @@ const authSlice = createSlice({
       state.name = null;
       state.email = null;
       state.role = null;
-      state.isAuthenticated = false; // Define como não autenticado
+      state.isAuthenticated = false; 
     }
   },
-
-});
+})
 
 export const { setCredentials } = authSlice.actions;
 export default authSlice.reducer;
-
 export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
 
