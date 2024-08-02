@@ -3,7 +3,7 @@ import { LoginRequest } from "./types";
 
 const authApi = api.injectEndpoints({
   endpoints: (build) => ({
-    login: build.mutation<{ data: string}, LoginRequest>({
+    login: build.mutation<{ access_token: string}, LoginRequest>({
       query: (credentials) => ({
         url: 'auth/ifleet',
         method: 'POST',

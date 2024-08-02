@@ -1,10 +1,7 @@
 
 export type AuthState = {
     user: string | null
-    name: string | null
-    email: string | null
     token: string | null
-    role: string | null
     isAuthenticated: boolean
 }
 

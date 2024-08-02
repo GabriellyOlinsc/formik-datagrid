@@ -1,5 +1,4 @@
 import { TextInput } from "../../components";
-import { setCredentials } from "../../store/modules/auth/slice";
 import { useDispatch } from "react-redux";
 import {
   Box,
@@ -13,7 +12,7 @@ import AuthLayout from "../../components/authLayout";
 import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../store/modules/auth/service";
-import { parseJwt } from "../../utils";
+import { setCredentials } from "../../store/modules/auth/slice";
 
 const validate = (values: any) => {
   const errors: any = {};
@@ -31,7 +30,7 @@ const validate = (values: any) => {
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation();
   const initialValues = {
     login: "",
     password: "",
@@ -40,27 +39,24 @@ export default function Login() {
   type Values = typeof initialValues;
 
   const handleSubmit = async (values: Values) => {
-    try{
-      const request = await login({login: values.login, password: values.password}).unwrap()
-      const userInfo = parseJwt(request.data)
-    }catch(err){
-      console.log(err)
+    try {
+      const request = await login({
+        login: values.login,
+        password: values.password,
+      }).unwrap();
+      if (request) {
+        dispatch(
+          setCredentials({
+            user: values.login,
+            token: request.access_token,
+          })
+        );
+      }
+      navigate("/home");  
+    } catch (err) {
+      console.log(err);
     }
-
-    //navigate("/home");
   };
-
-  // useEffect(() => {
-  //   localInstance
-  //     .post("ifleet", {
-  //       login: "admin",
-  //       password: "1nt3lbr4s"
-  //     })
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  //     .catch((e) => console.log(e.respons));
-  // }, []);
 
   return (
     <AuthLayout>
@@ -79,7 +75,7 @@ export default function Login() {
             },
           }}
         >
-          <Typography variant="h3" sx={{ pb: "20px" }}>
+          <Typography variant="h3" sx={{ pt: "30px", pb: "20px" }}>
             Userly System
           </Typography>
 
@@ -105,7 +101,11 @@ export default function Login() {
                         type="password"
                       />
                     </Grid>
-                    <Grid item xs={12} sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Grid
+                      item
+                      xs={12}
+                      sx={{ display: "flex", justifyContent: "center" }}
+                    >
                       <FormControlLabel
                         control={
                           <Switch
@@ -122,11 +122,12 @@ export default function Login() {
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Button
-                          variant="outlined"
+                          variant="contained"
+                          disabled={isLoading}
                           sx={{ width: "280px", mb: 0, maxWidth: "100%" }}
                           type="submit"
                         >
-                          Login
+                          {isLoading ? "Conecting" : "Confimar"}
                         </Button>
                       </Box>
                     </Grid>
